@@ -6,6 +6,8 @@
 | id | PK |
 | tg_id | Unique |
 | created_at | |
+| card_token | |
+| wallet_id | |
 
 **Relations:**
 - `Users.id` → `Payments.user_id`
