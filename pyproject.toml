@@ -19,3 +19,10 @@ dev = [
     "pytest-asyncio>=0.24,<1",
     "ruff>=0.6,<1",
 ]
+
+# `[tool.uv] package = false` above means this project itself is never
+# pip-installed into the venv, so pytest needs to be told explicitly where
+# to find the `app` package for imports like `from app.parser.client import ...`.
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
