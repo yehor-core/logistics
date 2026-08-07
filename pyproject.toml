@@ -1,0 +1,21 @@
+[project]
+name = "logistics"
+version = "0.1.0"
+description = "Telegram bot aggregating freight/logistics listings for Ukrainian dispatchers"
+requires-python = ">=3.11"
+dependencies = [
+    "telethon>=1.36,<2",
+    "pydantic-settings>=2.4,<3",
+]
+
+# This is an application (run via `python -m app.<component>`), not a library
+# that gets built and installed elsewhere, so it doesn't need a build backend.
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0,<9",
+    "pytest-asyncio>=0.24,<1",
+    "ruff>=0.6,<1",
+]
