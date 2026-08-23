@@ -18,21 +18,25 @@ logistics/
 │  ├─ 07-payments.md
 │  ├─ 08-errors.md
 │  └─ 09-code-structure.md
-└─ app/
+└─ src/
+   ├─ __init__.py
    ├─ config.py                # env settings
    ├─ enums.py                 # all statuses in one place
    ├─ db/
+   │  ├─ __init__.py
    │  ├─ session.py
    │  └─ models/               # users, settings, sources, user_sources, posts,
    │                           # deliveries, payments, methods, features,
    │                           # subscriptions, routes
    ├─ repositories/            # all SQL lives here
+   │  ├─ __init__.py
    │  ├─ posts.py
    │  ├─ users.py
    │  ├─ deliveries.py
    │  ├─ payments.py
    │  └─ subscriptions.py
    ├─ services/                # business logic, framework-free
+   │  ├─ __init__.py
    │  ├─ parsing.py            # price + route out of raw_text
    │  ├─ normalize.py          # city dictionary → from_norm / to_norm
    │  ├─ routes.py             # distance_km lookup, price_per_km
@@ -41,21 +45,26 @@ logistics/
    │  ├─ subscriptions.py      # activate / extend / expire
    │  └─ monobank.py           # API client, X-Sign verify
    ├─ parser/                  # telethon (MTProto)
+   │  ├─ __init__.py
    │  ├─ __main__.py
    │  └─ client.py
    ├─ worker/
+   │  ├─ __init__.py
    │  ├─ __main__.py           # runs both loops
    │  ├─ pipeline.py           # Posts(new) → ready/skipped/duplicate → deliveries
    │  └─ sender.py             # deliveries(pending) → Bot API
    ├─ bot/                     # aiogram
+   │  ├─ __init__.py
    │  ├─ __main__.py
    │  ├─ handlers/             # start, on_off, config, price, source, payment, card
    │  ├─ keyboards.py
    │  └─ texts.py              # {Greeting}, {Card}, {PaymentSuccess}, ...
    ├─ api/                     # fastapi
+   │  ├─ __init__.py
    │  ├─ __main__.py
    │  └─ webhooks/monobank.py
    └─ jobs/                    # one-shot cron scripts
+      ├─ __init__.py
       ├─ expire_invoices.py
       ├─ poll_invoices.py
       ├─ renew_subscriptions.py
