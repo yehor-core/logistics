@@ -52,5 +52,6 @@ Subscription service that helps/solves problems of Ukrainian logistics dispatche
 - ruff
 
 ## Commands
-
-To be added...
+- gh
+- ruff check --diff
+- ruff format --diff
