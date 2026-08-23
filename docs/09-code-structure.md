@@ -58,7 +58,8 @@ logistics/
    │  ├─ __main__.py
    │  ├─ handlers/             # start, on_off, config, price, source, payment, card
    │  ├─ keyboards.py
-   │  └─ texts.py              # {Greeting}, {Card}, {PaymentSuccess}, ...
+   │  ├─ messages.py
+   │  └─ texts.py 
    ├─ api/                     # fastapi
    │  ├─ __init__.py
    │  ├─ __main__.py

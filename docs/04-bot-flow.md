@@ -11,14 +11,14 @@ Legend:
 **Answer:** [`{Greeting}`](./05-messages.md)
 
 Reply:
-- `/on-off`
+- `/on_off`
 - `/config`
 - `/source`
 - `/payment`
 
 ---
 
-## `/on-off` (Reply)
+## `/on_off` (Reply)
 **Answer:** [`{On}`](./05-messages.md)/[`{Off}`](./05-messages.md)
 
 ---
@@ -74,7 +74,7 @@ Inline:
 
 ```
 /start (Reply)
-├─ /on-off (Reply)
+├─ /on_off (Reply)
 ├─ /config (Reply)
 │   └─ /price (Inline, Back → /config)
 ├─ /source (Reply)
