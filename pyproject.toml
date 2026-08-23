@@ -1,0 +1,17 @@
+[project]
+name = "logistics"
+version = "0.1.0"
+description = "A Telegram bot that aggregates freight/logistics posts from external sources (e.g. Telegram channels), parses routes and prices, and delivers matching listings to subscribed users."
+readme = "README.md"
+authors = [
+    { name = "yehor-core", email = "kanunnikovyehor@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+logistics = "logistics:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
