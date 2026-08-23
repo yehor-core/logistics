@@ -1,3 +1,4 @@
+```
 logistics/
 ├─ CLAUDE.md
 ├─ README.md
@@ -60,3 +61,4 @@ logistics/
       ├─ renew_subscriptions.py
       ├─ notify_expiry.py
       └─ expire_subscriptions.py
+```
