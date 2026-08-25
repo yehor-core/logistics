@@ -12,7 +12,7 @@ Picks up `post.status = new` :
      For `ready` posts, it finds matching users (`User settings.is_enabled = true`, active subscription, source enabled for that user, `price_per_km >= User settings.price_per_km`) and creates `Post deliveries`rows.
 
 3. **Bot** 
-Handles `/start`, `/on-off`, `/config`, `/price`, `/source`, `/payment`, `/card` - see the [Flow](./04-bot-flow.md)\
+Handles `/start`, `/on_off`, `/config`, `/price`, `/source`, `/payment`, `/card` - see the [Flow](./04-bot-flow.md)\
 A separate delivery worker pulls `pending` rows from `Post deliveries` and sends messages to users, updating `status/sent_at/tg_message_id`.
 
 4. Payment Service
