@@ -6,13 +6,31 @@
 
 ## Setup
 
-Clone the repo
+### Clone the repo
 ```bash
 git clone git@github.com:yehor-core/logistics.git
+cd logistics
 ```
 
-Install dependencies
+### Install dependencies
 ```bash
 uv sync
 uv run pre-commit install
+```
+
+### Bot creation
+1. In telegarm find `@BotFather`
+2. Create your own bot
+3. Save API token
+
+### Enironment setup
+1. Copy-paste `.env.example` and rename it to `.env`
+```bash
+cp .env.example .env
+```
+2. Fillout .env with API token and handler from `@BotFather`
+
+### Run
+```bash
+uv run logistics
 ```
