@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-logistics = "logistics:main"
+logistics = "src:main"
 
 [tool.uv.build-backend]
 module-name = "src"
