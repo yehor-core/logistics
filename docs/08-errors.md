@@ -20,7 +20,7 @@
 - Same order reposted in another source → `duplicate` + `duplicate_of_id`, no deliveries.
 - Repost older than 24h → treated as new (orders legitimately get re-listed).
 - Different orders with identical route + price → collide and get deduped; accepted MVP trade-off.
-- Concurrent processing → single worker in MVP + row lock on `Posts.status = new`.
+- Concurrent processing → single worker in MVP + row lock on `Posts.status = new` (`.with_for_update(skip_locked=True)` → `SELECT ... FOR UPDATE SKIP LOCKED`).
 
 ## 4. Delivery
 - User blocked the bot (403) → delivery `blocked`, no retries for that user.
@@ -57,7 +57,7 @@
 - Double tap on `/card` → reuse the existing `pending` invoice if not expired.
 
 ## 8. Infrastructure
-- DB unavailable → retry with backoff; all status transitions are transactional.
+- DB unavailable → retry with backoff; `pool_pre_ping=True` discards connections gone stale after a restart. Every status transition runs inside one SQLAlchemy transaction (`async with session.begin()`), rolled back on error.
 - Container restart mid-processing → in-flight rows stay `new` / `pending`, picked up on next tick.
-- Overlapping cron runs → Postgres advisory lock per job.
+- Overlapping cron runs → Postgres advisory lock per job: `text("SELECT pg_try_advisory_lock(:key)")` with a bound parameter — one of the few places raw SQL is allowed, never an f-string (ruff `S608`).
 - All timestamps stored in UTC.
