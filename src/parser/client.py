@@ -5,9 +5,11 @@ import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
+
 from telethon import TelegramClient, events
 from telethon.errors import AuthKeyUnregisteredError, FloodWaitError
 from telethon.tl.custom.message import Message
+
 from src.config import settings
 
 logger = logging.getLogger(__name__)

@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+
 from src.parser.client import RawPost, build_client, run_forever
 
 logger = logging.getLogger(__name__)
