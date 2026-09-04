@@ -59,9 +59,6 @@ Where the models and migrations live: [Code structure](./09-code-structure.md).
 | created_at | `Mapped[datetime]` / timestamptz | `server_default=now()` |
 | confirmed_at | `Mapped[datetime \| None]` / timestamptz | nullable |
 
-> **TODO:** `07-payments.md` compares `modifiedDate` to drop out-of-order webhooks, but no
-> `modified_date` column exists here. Undecided.
-
 **Relations:**
 - `Payments.method_id` → `Methods.id`
 - `Payments.id` → `User subscriptions.payment_id` (nullable)
@@ -149,9 +146,6 @@ The MVP plan row is seeded via an Alembic data migration.
 | to_norm | `Mapped[str \| None]` / Text | nullable until normalized |
 | duplicate_of_id | `Mapped[int \| None]` / BigInteger | nullable; self-referential FK → `posts.id` |
 
-> **TODO:** `08-errors.md` retries processing 3 times before leaving a post `failed`, but no retry
-> counter column exists here. Undecided.
-
 **Relations:**
 - `Posts.id` → `Post deliveries.post_id`
 
@@ -167,9 +161,6 @@ The MVP plan row is seeded via an Alembic data migration.
 | sent_at | `Mapped[datetime \| None]` / timestamptz | nullable |
 | status | `Mapped[DeliveryStatus]` / Enum | index; `pending`, `sent`, `failed`, `blocked` |
 
-> **TODO:** `08-errors.md` allows up to 3 send retries before dropping a delivery, but no retry
-> counter column exists here. Undecided.
-
 ---
 
 ## Routes
@@ -181,5 +172,8 @@ The MVP plan row is seeded via an Alembic data migration.
 | from_location | `Mapped[str]` / Text | display name |
 | to_location | `Mapped[str]` / Text | display name |
 
-> **TODO:** the relation to `Posts.from_norm` / `Posts.to_norm` is undecided — real composite FK, or
-> a pure lookup table with no constraint.
+**Relations:**
+- `Routes.(from_norm, to_norm)` ↔ `Posts.(from_norm, to_norm)` — value-based lookup only, no FK
+  constraint. Normalization (which sets `Posts.from_norm`/`to_norm`) and the `Routes` distance
+  lookup are separate pipeline steps; a missing pair is not a write-time error — the post is
+  `skipped` (see [Errors](./08-errors.md)).

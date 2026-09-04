@@ -14,7 +14,7 @@
 - Multiple numbers in text → take the one next to a currency marker; ambiguous → `skipped`.
 - Non-UAH price ($, €) → `skipped` (MVP is UAH only).
 - Missing route, `from_norm == to_norm`, `distance_km = 0` → `skipped`.
-- DB/network error mid-processing → `failed`, retried by cron (3 attempts, then left `failed`).
+- DB/network error mid-processing → retried in-process (3 attempts with backoff, logged), then left `failed`. Not cron-driven — the Normalizer+Matcher is a continuous worker; if it restarts mid-retry, the post is still `new` and gets fully reprocessed on next pickup.
 
 ## 3. Dedupe
 - Same order reposted in another source → `duplicate` + `duplicate_of_id`, no deliveries.
@@ -25,14 +25,13 @@
 ## 4. Delivery
 - User blocked the bot (403) → delivery `blocked`, no retries for that user.
 - Telegram 429 → respect `retry_after`, delivery stays `pending`.
-- Network / 5xx → `failed`, up to 3 retries, then dropped.
+- Network / 5xx → retried in-process (up to 3 attempts, short backoff so a stalled send doesn't hold up the rate-limited queue), then `failed`/dropped.
 - Subscription expired or bot switched off between matching and sending → re-check before send, skip.
 - Duplicate delivery attempt → composite PK `(post_id, user_id)` makes it idempotent.
 - Burst of posts → global send rate limit (~25 msg/s) to stay under Telegram limits.
 
 ## 5. Payments
-- Duplicate webhook → idempotent by `external_id` + final-status check.
-- Out-of-order webhook → compare `modifiedDate`, ignore older.
+- Duplicate or out-of-order webhook → idempotent by `external_id` + final-status check (all non-final statuses map to the same `pending`, so order doesn't matter).
 - Invalid `X-Sign` → `403`, nothing written.
 - Unknown `invoiceId` → `200` + log.
 - Payment lands after invoice expiry → still `confirmed`, subscription activated.

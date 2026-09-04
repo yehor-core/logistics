@@ -19,7 +19,7 @@
 `POST /webhook/monobank` (FastAPI):
 1. Verify `X-Sign` — ECDSA-SHA256 over the **raw** body, key from `GET /api/merchant/pubkey` (cached). Invalid → `403`.
 2. Find `Payments` by `external_id = invoiceId`. Unknown → `200` + log.
-3. Skip if payment is already in a final status (idempotency; webhooks repeat and can arrive out of order — compare `modifiedDate`).
+3. Skip if payment is already in a final status (idempotency; webhooks repeat, and every non-final Mono status — `created`/`processing`/`hold` — maps to the same `pending`, so their relative arrival order is unobservable).
 4. Store raw body in `payload`, update `status`, set `confirmed_at`.
 5. On `success` → activate/extend subscription.
 6. Always return `200` — any other code makes mono retry.
