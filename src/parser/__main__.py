@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 async def _log_post(post: RawPost) -> None:
-    logger.info("new post from %s (%s): %.80s", post.source, post.external_id, post.raw_text)
+    # TODO: remove after DB persistence lands
+    logger.info("new post from source %s", post.source_id)
 
 
 async def main() -> None:

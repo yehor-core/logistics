@@ -4,7 +4,7 @@ import asyncio
 import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime
 
 from telethon import TelegramClient, events
 from telethon.errors import AuthKeyUnregisteredError, FloodWaitError
@@ -17,13 +17,13 @@ logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True, slots=True)
 class RawPost:
-    source: int
+    source_id: int
     external_id: int
     raw_text: str
     published_at: datetime
 
 
-PostHandler = Callable[[RawPost], Awaitable[None]]
+_PostHandler = Callable[[RawPost], Awaitable[None]]
 
 
 def build_client() -> TelegramClient:
@@ -34,18 +34,21 @@ def build_client() -> TelegramClient:
     )
 
 
-def _to_raw_post(source: int, message: Message) -> RawPost | None:
-    if not message.raw_text:
+def _to_raw_post(source_id: int, message: Message) -> RawPost | None:
+    if not message.raw_text or not message.date:
         return None
     return RawPost(
-        source=source,
+        source_id=source_id,
         external_id=message.id,
         raw_text=message.raw_text,
-        published_at=message.date or datetime.now(UTC),
+        published_at=message.date,
     )
 
 
-def register_handlers(client: TelegramClient, on_post: PostHandler) -> None:
+def register_handlers(
+    client: TelegramClient,
+    on_post: _PostHandler,
+) -> None:
     @client.on(events.NewMessage(chats=settings.source_channels))
     async def _handler(event: events.NewMessage.Event) -> None:
         post = _to_raw_post(event.chat_id, event.message)
@@ -53,12 +56,18 @@ def register_handlers(client: TelegramClient, on_post: PostHandler) -> None:
             await on_post(post)
 
 
-async def run_forever(client: TelegramClient, on_post: PostHandler) -> None:
+async def run_forever(
+    client: TelegramClient,
+    on_post: _PostHandler,
+) -> None:
     register_handlers(client, on_post)
     while True:
         try:
             await client.start()
-            logger.info("parser connected, listening on %d channels", len(settings.source_channels))
+            logger.info(
+                "parser connected, listening on %d channels",
+                len(settings.source_channels),
+            )
             await client.run_until_disconnected()
             return
         except FloodWaitError as exc:
