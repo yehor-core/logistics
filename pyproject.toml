@@ -41,6 +41,8 @@ select = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
 "src/bot/*" = ["RUF001", "RUF002", "RUF003"]
+"src/services/*" = ["RUF001", "RUF002", "RUF003"]
+"tests/services/*" = ["RUF001", "RUF002", "RUF003"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
