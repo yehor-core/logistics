@@ -39,6 +39,9 @@ Subscription service that helps/solves problems of Ukrainian logistics dispatche
 - aiogram
 - MTProto parser
 - PostgreSQL
+- SQLAlchemy
+- asyncpg
+- Alembic
 - FastAPI
 - plain system cron
 - Docker Compose

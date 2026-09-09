@@ -27,7 +27,7 @@ Extract `from_location`, `to_location`, `price` from `raw_text`.
 Two layers: `(source_id, external_id)` unique constraint blocks repeats inside one source; `fingerprint` blocks the same order reposted across different sources.
 
 ## 5. Match users
-For a `ready` post, select users where **all** conditions hold:
+For a `ready` post, select users where **all** conditions hold — one ORM `select()` joining the four tables below, in `repositories/posts.py`:
 
 | Condition | Check |
 |---|---|
@@ -38,7 +38,7 @@ For a `ready` post, select users where **all** conditions hold:
 
 ## 6. Deliver
 - Insert `Post deliveries(post_id, user_id, status = pending)` for each matched user.
-- Composite PK `(post_id, user_id)` makes the insert idempotent — one post reaches a user once.
+- Composite PK `(post_id, user_id)` makes the insert idempotent via `postgresql.insert(...).on_conflict_do_nothing()` — one post reaches a user once.
 - Then `Posts.status = distributed`. Zero matched users → still `distributed`.
 
 ## Status map for `Post`

@@ -7,7 +7,11 @@ logistics/
 ├─ pyproject.toml
 ├─ .env.example
 ├─ crontab
-├─ migrations/
+├─ alembic.ini
+├─ alembic/
+│  ├─ env.py
+│  ├─ script.py.mako
+│  └─ versions/
 ├─ docs/
 │  ├─ 01-mvp-scope.md
 │  ├─ 02-architecture.md
@@ -24,11 +28,12 @@ logistics/
    ├─ enums.py                 # all statuses in one place
    ├─ db/
    │  ├─ __init__.py
-   │  ├─ session.py
-   │  └─ models/               # users, settings, sources, user_sources, posts,
-   │                           # deliveries, payments, methods, features,
-   │                           # subscriptions, routes
-   ├─ repositories/            # all SQL lives here
+   │  ├─ base.py               # DeclarativeBase + naming_convention
+   │  ├─ session.py            # async engine + async_sessionmaker
+   │  └─ models/               # one module per table: users, settings, sources,
+   │                           # user_sources, posts, deliveries, payments,
+   │                           # methods, features, subscriptions, routes
+   ├─ repositories/            # all DB access lives here (SQLAlchemy queries)
    │  ├─ __init__.py
    │  ├─ posts.py
    │  ├─ users.py

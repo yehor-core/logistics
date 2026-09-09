@@ -29,7 +29,7 @@ HTTP endpoint for the Monobank webhook (verifies `X-Sign`, updates `Payments`, a
 
 # Stack
 - Python: aiogram (bot) + Telethon/Pyrogram (MTProto parser)
-- PostgreSQL — primary datastore
+- PostgreSQL — primary datastore; SQLAlchemy ORM over asyncpg, Alembic for migrations
 - Plain system cron — scheduled jobs
 - FastAPI — Monobank webhook receiver
 - Docker Compose — 4 containers (bot, parser, worker, webhook-api) on a single VPS for MVP; no message broker needed, task "queueing" is just DB status columns
