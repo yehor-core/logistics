@@ -7,13 +7,14 @@ Subscription service that helps/solves problems of Ukrainian logistics dispatche
 ## Rules
 
 ### Global
-- Always read docs for the related area you are editing/gathering context on.
+- Always read `/docs` for the related area you are editing/gathering context on.
 - We are building MVP version of the project. You should not add features that are not listed in the `docs/01-mvp-scope.md`!
 - Nearly for each task in the MVP you should read `docs/02-architecture.md`.
 - Follow target file tree, described in the `docs/09-code-structure.md`
 - Docs are always written in English
 - Secrets via env only (`.env` is gitignored); keep `.env.example` in sync when adding a setting.
 - Always run related tests + ruff before commit 
+- Alway choose migrations over raw SQL
 
 ### Git
 - Never run `git commit` or `git push` automatically. Only run `git commit` or `git push` if the user explicitly commands to run these commands.
