@@ -5,7 +5,7 @@
 To run the project:
 [Docker / Docker Compose](https://docs.docker.com/get-started/get-docker/)
 
-For local development (tests, ruff, pre-commit, PRs):
+For local development:
 [uv - Python package and project manager](https://docs.astral.sh/uv/getting-started/installation/) \
 [gh - GitHub CLI](https://cli.github.com/)
 
