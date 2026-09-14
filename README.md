@@ -1,6 +1,11 @@
 # logistics
 
 ## Pre-requests
+
+To run the project:
+[Docker / Docker Compose](https://docs.docker.com/get-started/get-docker/)
+
+For local development (tests, ruff, pre-commit, PRs):
 [uv - Python package and project manager](https://docs.astral.sh/uv/getting-started/installation/) \
 [gh - GitHub CLI](https://cli.github.com/)
 
@@ -12,7 +17,7 @@ git clone git@github.com:yehor-core/logistics.git
 cd logistics
 ```
 
-### Install dependencies
+### Install dependencies (local development only)
 ```bash
 uv sync
 uv run pre-commit install
@@ -32,5 +37,5 @@ cp .env.example .env
 
 ### Run
 ```bash
-uv run logistics
+docker compose up --build
 ```

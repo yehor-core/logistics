@@ -1,0 +1,10 @@
+FROM python:3.14-slim
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+
+WORKDIR /app
+COPY . .
+
+RUN uv sync --frozen --no-dev
+
+CMD ["uv", "run", "logistics"]
