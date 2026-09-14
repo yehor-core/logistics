@@ -1,0 +1,21 @@
+.venv/
+.git/
+.github/
+.claude/
+docs/
+
+**/__pycache__/
+**/*.py[cod]
+.ruff_cache/
+.pytest_cache/
+
+# Secrets
+.env
+.env.*
+**/*.session
+**/*.session-journal
+
+# PostgreSQL local volumes
+pgdata/
+postgres-data/
+postgres_data/

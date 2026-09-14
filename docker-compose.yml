@@ -1,0 +1,8 @@
+services:
+  bot:
+    build: .
+    command: .venv/bin/python -m src.bot
+    env_file: .env
+    restart: unless-stopped
+    # TODO: add a postgres service once src/db exists and something reads a DB connection string
+    # TODO: add parser/worker/webhook-api services once src/parser, src/worker, src/api exist

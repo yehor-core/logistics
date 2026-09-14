@@ -59,3 +59,4 @@ Subscription service that helps/solves problems of Ukrainian logistics dispatche
 - gh
 - ruff check --diff
 - ruff format --diff
+- docker compose up --build
