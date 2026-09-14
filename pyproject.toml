@@ -13,9 +13,6 @@ dependencies = [
     "pydantic-settings>=2.15.0",
 ]
 
-[project.scripts]
-logistics = "src:main"
-
 [tool.uv.build-backend]
 module-name = "src"
 module-root = ""

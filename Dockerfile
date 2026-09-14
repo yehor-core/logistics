@@ -6,5 +6,3 @@ WORKDIR /app
 COPY . .
 
 RUN uv sync --frozen --no-dev
-
-CMD ["uv", "run", "logistics"]
