@@ -1,6 +1,7 @@
 """`/price` — price per km setting"""
 
 import math
+from decimal import Decimal
 
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
@@ -16,7 +17,7 @@ router = Router(name="price")
 waiting_for_price = State("waiting_for_price")
 
 
-def _format_price(price: float) -> str:
+def _format_price(price: float | Decimal) -> str:
     return f"{price:g}"
 
 
