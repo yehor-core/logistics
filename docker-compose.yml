@@ -1,7 +1,7 @@
 services:
   bot:
     build: .
-    command: uv run python -m src.bot
+    command: .venv/bin/python -m src.bot
     env_file: .env
     restart: unless-stopped
     # TODO: add a postgres service once src/db exists and something reads a DB connection string

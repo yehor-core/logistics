@@ -9,7 +9,6 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "aiogram>=3.30.0",
-    "pre-commit>=4.6.2",
     "pydantic-settings>=2.15.0",
 ]
 
@@ -48,6 +47,7 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "pre-commit>=4.6.2",
     "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
     "ruff>=0.16.4",

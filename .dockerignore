@@ -1,8 +1,22 @@
 .venv/
 .git/
-__pycache__/
-*.py[cod]
+.github/
+.claude/
+docs/
+
+# ** is required — plain patterns only match the context root
+**/__pycache__/
+**/*.py[cod]
 .ruff_cache/
 .pytest_cache/
-.claude/
+
+# Secrets — mirrors .gitignore
 .env
+.env.*
+**/*.session
+**/*.session-journal
+
+# PostgreSQL local volumes
+pgdata/
+postgres-data/
+postgres_data/
