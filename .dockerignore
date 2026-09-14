@@ -4,13 +4,12 @@
 .claude/
 docs/
 
-# ** is required — plain patterns only match the context root
 **/__pycache__/
 **/*.py[cod]
 .ruff_cache/
 .pytest_cache/
 
-# Secrets — mirrors .gitignore
+# Secrets
 .env
 .env.*
 **/*.session
