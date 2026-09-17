@@ -34,6 +34,7 @@ uv run pre-commit install
 cp .env.example .env
 ```
 2. Fillout .env with API token and handler from `@BotFather`
+3. Set `POSTGRES_PASSWORD`
 
 ### Run
 ```bash
