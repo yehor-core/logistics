@@ -1,4 +1,4 @@
-"""Declarative base shared by every model"""
+"""Declarative base"""
 
 from sqlalchemy import MetaData
 from sqlalchemy.orm import DeclarativeBase
@@ -13,6 +13,6 @@ NAMING_CONVENTION = {
 
 
 class Base(DeclarativeBase):
-    """Parent class for models in src/db/models"""
+    """Parent class for models"""
 
     metadata = MetaData(naming_convention=NAMING_CONVENTION)
