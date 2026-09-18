@@ -7,7 +7,7 @@ from aiogram.types import BotCommand
 
 from src.bot.handlers import routers
 from src.config import settings
-from src.db import dispose, ping
+from src.db.session import dispose, ping
 
 BOT_COMMANDS = [
     BotCommand(command="start", description="Начать работу"),

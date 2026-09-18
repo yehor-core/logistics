@@ -2,7 +2,8 @@
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.db import Base, engine, session_factory
+from src.db.base import Base
+from src.db.session import engine, session_factory
 
 
 def test_engine_talks_to_postgres_over_asyncpg() -> None:
