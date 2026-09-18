@@ -7,6 +7,7 @@ from aiogram.types import BotCommand
 
 from src.bot.handlers import routers
 from src.config import settings
+from src.db import dispose, ping
 
 BOT_COMMANDS = [
     BotCommand(command="start", description="Начать работу"),
@@ -25,11 +26,16 @@ def build_dispatcher() -> Dispatcher:
 
 
 async def main() -> None:
+    await ping()
+
     bot = Bot(token=settings.test_bot_token.get_secret_value())
     dispatcher = build_dispatcher()
 
-    await bot.set_my_commands(BOT_COMMANDS)
-    await dispatcher.start_polling(bot)
+    try:
+        await bot.set_my_commands(BOT_COMMANDS)
+        await dispatcher.start_polling(bot)
+    finally:
+        await dispose()
 
 
 if __name__ == "__main__":
