@@ -47,9 +47,10 @@ def _to_raw_post(source_id: int, message: Message) -> RawPost | None:
 
 def register_handlers(
     client: TelegramClient,
+    source_channels: list[int],
     on_post: _PostHandler,
 ) -> None:
-    @client.on(events.NewMessage(chats=settings.source_channels))
+    @client.on(events.NewMessage(chats=source_channels))
     async def _handler(event: events.NewMessage.Event) -> None:
         post = _to_raw_post(event.chat_id, event.message)
         if post is not None:
@@ -58,15 +59,16 @@ def register_handlers(
 
 async def run_forever(
     client: TelegramClient,
+    source_channels: list[int],
     on_post: _PostHandler,
 ) -> None:
-    register_handlers(client, on_post)
+    register_handlers(client, source_channels, on_post)
     while True:
         try:
             await client.start()
             logger.info(
                 "parser connected, listening on %d channels",
-                len(settings.source_channels),
+                len(source_channels),
             )
             await client.run_until_disconnected()
             return

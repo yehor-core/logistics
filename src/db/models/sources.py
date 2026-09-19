@@ -28,4 +28,4 @@ class Source(Base):
     last_fetched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     chat_id: Mapped[int | None] = mapped_column(BigInteger)
 
-    posts: Mapped[list["Post"]] = relationship(back_populates="source")
+    posts: Mapped[list[Post]] = relationship(back_populates="source")

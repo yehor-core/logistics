@@ -54,4 +54,4 @@ class Post(Base):
     to_norm: Mapped[str | None] = mapped_column(Text)
     duplicate_of_id: Mapped[int | None] = mapped_column(BigInteger, ForeignKey("posts.id"))
 
-    source: Mapped["Source"] = relationship(back_populates="posts")
+    source: Mapped[Source] = relationship(back_populates="posts")
