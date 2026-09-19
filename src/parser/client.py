@@ -15,13 +15,10 @@ logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True, slots=True)
 class RawPost:
-    source_id: int
+    chat_id: int
     external_id: int
     raw_text: str
     published_at: datetime
-
-
-_PostHandler = Callable[[RawPost], Awaitable[None]]
 
 
 def build_client() -> TelegramClient:
@@ -32,11 +29,11 @@ def build_client() -> TelegramClient:
     )
 
 
-def _to_raw_post(source_id: int, message: Message) -> RawPost | None:
+def _to_raw_post(chat_id: int, message: Message) -> RawPost | None:
     if not message.raw_text or not message.date:
         return None
     return RawPost(
-        source_id=source_id,
+        chat_id=chat_id,
         external_id=message.id,
         raw_text=message.raw_text,
         published_at=message.date,
@@ -46,7 +43,7 @@ def _to_raw_post(source_id: int, message: Message) -> RawPost | None:
 def register_handlers(
     client: TelegramClient,
     source_channels: list[int],
-    on_post: _PostHandler,
+    on_post: Callable[[RawPost], Awaitable[None]],
 ) -> None:
     @client.on(events.NewMessage(chats=source_channels))
     async def _handler(event: events.NewMessage.Event) -> None:
@@ -58,7 +55,7 @@ def register_handlers(
 async def run_forever(
     client: TelegramClient,
     source_channels: list[int],
-    on_post: _PostHandler,
+    on_post: Callable[[RawPost], Awaitable[None]],
 ) -> None:
     register_handlers(client, source_channels, on_post)
     # Note: Advanced error handling (AuthKeyUnregisteredError,

@@ -82,4 +82,6 @@ def downgrade() -> None:
     op.drop_index(op.f("ix_posts_fingerprint_posts_published_at"), table_name="posts")
     op.drop_table("posts")
     op.drop_table("sources")
+    op.execute("DROP TYPE poststatus")
+    op.execute("DROP TYPE sourcetype")
     # ### end Alembic commands ###
