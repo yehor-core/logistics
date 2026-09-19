@@ -24,7 +24,16 @@ services:
       postgres:
         condition: service_healthy
     restart: unless-stopped
-    # TODO: add parser/worker/webhook-api services once src/parser, src/worker, src/api exist
+    # TODO: add worker/webhook-api services once src/worker, src/api exist
+
+  parser:
+    build: .
+    command: .venv/bin/python -m src.parser
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   pgdata:
