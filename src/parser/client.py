@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from telethon import TelegramClient, events
-from telethon.errors import AuthKeyUnregisteredError, FloodWaitError
 from telethon.tl.custom.message import Message
 
 from src.config import settings
@@ -63,18 +62,12 @@ async def run_forever(
     on_post: _PostHandler,
 ) -> None:
     register_handlers(client, source_channels, on_post)
-    while True:
-        try:
-            await client.start()
-            logger.info(
-                "parser connected, listening on %d channels",
-                len(source_channels),
-            )
-            await client.run_until_disconnected()
-            return
-        except FloodWaitError as exc:
-            logger.warning("flood wait, retrying in %ss", exc.seconds)
-            await asyncio.sleep(exc.seconds)
-        except AuthKeyUnregisteredError:
-            logger.critical("telegram session revoked, re-authentication required")
-            raise
+    # Note: Advanced error handling (AuthKeyUnregisteredError state machine, 
+    # FloodWaitError management affecting Sources.is_enabled) is deferred to a follow-up PR per docs/08-errors.md
+    await client.start()
+    logger.info(
+        "parser connected, listening on %d channels",
+        len(source_channels),
+    )
+    await client.run_until_disconnected()
+    
