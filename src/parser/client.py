@@ -1,6 +1,5 @@
 """Telethon client that listens to configured source channels for new posts"""
 
-import asyncio
 import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
@@ -62,12 +61,11 @@ async def run_forever(
     on_post: _PostHandler,
 ) -> None:
     register_handlers(client, source_channels, on_post)
-    # Note: Advanced error handling (AuthKeyUnregisteredError state machine, 
-    # FloodWaitError management affecting Sources.is_enabled) is deferred to a follow-up PR per docs/08-errors.md
+    # Note: Advanced error handling (AuthKeyUnregisteredError,
+    # FloodWaitError affecting Sources.is_enabled) deferred per docs/08-errors.md
     await client.start()
     logger.info(
         "parser connected, listening on %d channels",
         len(source_channels),
     )
     await client.run_until_disconnected()
-    

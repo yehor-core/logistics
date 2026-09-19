@@ -4,9 +4,9 @@ import sys
 
 from sqlalchemy import select
 
-from src.db.session import async_session_maker
 from src.db.models import Source
-from src.parser.client import build_client, run_forever, RawPost
+from src.db.session import async_session_maker
+from src.parser.client import RawPost, build_client, run_forever
 
 logging.basicConfig(
     level=logging.INFO,
@@ -17,14 +17,15 @@ logger = logging.getLogger(__name__)
 
 
 async def on_post(post: RawPost) -> None:
-    logger.info("New post from source %s: %s...", post.source_id, post.raw_text[:50].replace('\n', ' '))
+    txt = post.raw_text[:50].replace("\n", " ")
+    logger.info("New post from source %s: %s...", post.source_id, txt)
 
 
 async def main() -> None:
     logger.info("Fetching source channels from database...")
-    
+
     async with async_session_maker() as session:
-        # Строго по docs/03-data-model.md: используем chat_id, а не telegram_id
+        # Docs: docs/03-data-model.md
         result = await session.execute(select(Source.chat_id))
         channels = list(result.scalars().all())
 
@@ -38,4 +39,3 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
